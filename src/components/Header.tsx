@@ -11,24 +11,26 @@ export function Header() {
         <a href="#" className="font-display text-[22px] font-bold tracking-wide text-foreground">
           Mantoz <span className="text-gold">Fut</span>
         </a>
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-5 sm:gap-6">
           <a
             href={INSTAGRAM_URL}
             target="_blank"
             rel="noreferrer"
-            className="hidden items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground sm:flex"
+            aria-label="Instagram"
+            className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
           >
-            <Instagram className="h-4 w-4" />
-            Instagram
+            <Instagram className="h-5 w-5 sm:h-4 sm:w-4" />
+            <span className="hidden sm:inline">Instagram</span>
           </a>
           <button
             onClick={open}
+            aria-label="Abrir carrinho"
             className="relative flex items-center gap-1.5 text-sm font-medium text-foreground"
           >
-            <ShoppingBag className="h-4 w-4" />
-            Carrinho
+            <ShoppingBag className="h-5 w-5 sm:h-4 sm:w-4" />
+            <span className="hidden sm:inline">Carrinho</span>
             {count > 0 && (
-              <span className="absolute -right-3.5 -top-2 flex h-[18px] w-[18px] items-center justify-center rounded-full bg-gold text-[11px] font-semibold text-white">
+              <span className="absolute -right-3 -top-2 flex h-[18px] w-[18px] items-center justify-center rounded-full bg-gold text-[11px] font-semibold text-white">
                 {count}
               </span>
             )}
