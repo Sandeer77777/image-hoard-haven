@@ -25,14 +25,18 @@ export interface Product {
   camp: string;
   price: number;
   image: string;
+  /** true = aparece na seção "Mais pedidos" */
+  featured?: boolean;
 }
 
+export const SIZES = ["P", "M", "G", "GG", "XG"] as const;
+
 export const products: Product[] = [
-  { id: 1, name: "Camisa I 2024/25", team: "Flamengo", type: "Atual", camp: "Brasileirão", price: 150, image: "" },
-  { id: 2, name: "Camisa Retrô 2019 Libertadores", team: "Flamengo", type: "Retrô", camp: "Libertadores", price: 150, image: "" },
-  { id: 3, name: "Camisa I 2024/25", team: "Palmeiras", type: "Atual", camp: "Brasileirão", price: 150, image: "" },
+  { id: 1, name: "Camisa I 2024/25", team: "Flamengo", type: "Atual", camp: "Brasileirão", price: 150, image: "", featured: true },
+  { id: 2, name: "Camisa Retrô 2019 Libertadores", team: "Flamengo", type: "Retrô", camp: "Libertadores", price: 150, image: "", featured: true },
+  { id: 3, name: "Camisa I 2024/25", team: "Palmeiras", type: "Atual", camp: "Brasileirão", price: 150, image: "", featured: true },
   { id: 4, name: "Camisa Retrô 1999", team: "Palmeiras", type: "Retrô", camp: "Libertadores", price: 150, image: "" },
-  { id: 5, name: "Camisa I 2024/25", team: "Corinthians", type: "Atual", camp: "Brasileirão", price: 150, image: "" },
+  { id: 5, name: "Camisa I 2024/25", team: "Corinthians", type: "Atual", camp: "Brasileirão", price: 150, image: "", featured: true },
   { id: 6, name: "Camisa Retrô 2012 Libertadores", team: "Corinthians", type: "Retrô", camp: "Libertadores", price: 150, image: "" },
   { id: 7, name: "Camisa I 2024/25", team: "São Paulo", type: "Atual", camp: "Estadual", price: 150, image: "" },
   { id: 8, name: "Camisa Retrô 2005 Mundial", team: "São Paulo", type: "Retrô", camp: "Libertadores", price: 150, image: "" },
