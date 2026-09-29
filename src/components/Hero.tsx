@@ -1,15 +1,13 @@
 export function Hero() {
   return (
-    <section className="bg-secondary px-6 py-16 text-center sm:py-20">
-      <h1 className="font-display mx-auto max-w-2xl text-4xl font-bold leading-tight text-foreground sm:text-5xl">
-        Camisas de time com
-        <br />
-        qualidade e estilo
+    <section className="hero-section relative overflow-hidden bg-secondary px-6 py-10 text-center sm:py-20">
+      <h1 className="hero-title font-display mx-auto max-w-3xl text-[2.75rem] font-bold leading-[1.1] text-foreground sm:text-6xl">
+        Vista a camisa do seu time
       </h1>
-      <p className="mx-auto mt-4 max-w-md text-base leading-relaxed text-muted-foreground">
-        Catálogo atualizado com as melhores camisas — retrô e atuais — dos maiores clubes do Brasil e do mundo.
+      <p className="hero-sub mx-auto mt-4 max-w-lg text-[15px] font-normal leading-relaxed text-muted-foreground">
+        Camisas oficiais, retrô e atuais dos maiores clubes. Entrega rápida, preço justo.
       </p>
-      <a href="#catalogo" className="btn-gold mt-8">
+      <a href="#catalogo" className="btn-gold btn-hero mt-8">
         Ver catálogo
       </a>
     </section>
