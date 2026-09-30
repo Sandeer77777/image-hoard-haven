@@ -208,11 +208,86 @@
     opacity: 1;
     pointer-events: auto;
   }
+
+  .search-input {
+    border: 1px solid var(--border);
+    background: var(--background);
+    color: var(--foreground);
+    padding: 0.7rem 0.75rem 0.7rem 2.25rem;
+    font-size: 0.875rem;
+    font-family: inherit;
+    transition: border-color 0.2s;
+  }
+  .search-input:focus {
+    outline: none;
+    border-color: var(--gold);
+  }
+
+  .hero-title { font-size: 3.3rem; }
+  @media (min-width: 640px) { .hero-title { font-size: 4.5rem; } }
+  .btn-hero { padding: 0.9rem 2.5rem; }
+
+  .product-card {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    padding: 0.5rem;
+  }
+  .product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px oklch(0 0 0 / 0.06);
+  }
+  .product-media { background: #f0f0f0; }
+  .product-placeholder { color: #ccc; }
+
+  .size-chip {
+    min-width: 2rem;
+    padding: 0.25rem 0.4rem;
+    font-size: 0.6875rem;
+    border: 1px solid var(--border);
+    background: var(--background);
+    color: var(--foreground);
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s, color 0.15s;
+  }
+  .size-chip:hover { border-color: var(--muted-foreground); }
+  .size-chip.selected {
+    background: var(--foreground);
+    color: var(--background);
+    border-color: var(--foreground);
+  }
+  .btn-add.pressed { transform: scale(0.97); }
+
+  .cart-item { animation: card-in 0.35s ease both; }
+
+  .fab-whatsapp {
+    background: var(--whatsapp);
+    box-shadow: 0 6px 18px oklch(0 0 0 / 0.18);
+    transition: background 0.2s;
+    animation: fab-pulse 5s ease-in-out infinite;
+  }
+  .fab-whatsapp:hover { background: var(--whatsapp-hover); }
+  .btn-whatsapp.pulse { animation: fab-pulse 5s ease-in-out infinite; }
 }
 
 @keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
   to {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+@keyframes fab-pulse {
+  0%, 88%, 100% { transform: scale(1); }
+  94% { transform: scale(1.06); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .card-reveal { opacity: 1; transform: none; }
 }

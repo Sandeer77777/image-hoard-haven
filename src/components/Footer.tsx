@@ -1,4 +1,3 @@
-import { MessageCircle } from "lucide-react";
 import { INSTAGRAM_URL, WHATSAPP_NUMBER } from "@/data/products";
 
 export function Footer() {
@@ -7,10 +6,8 @@ export function Footer() {
       <div className="mx-auto flex max-w-6xl flex-col gap-6 sm:flex-row sm:justify-between sm:gap-8">
         <div>
           <h4 className="font-display mb-3 text-[15px] font-semibold text-foreground">Mantoz Fut</h4>
-          <p className="text-[13px] leading-relaxed text-muted-foreground">
-            Camisas de time com qualidade,
-            <br />
-            entrega rápida e preço justo.
+          <p className="max-w-xs text-[13px] leading-relaxed text-muted-foreground">
+            A melhor seleção de camisas de time do Brasil. Qualidade garantida.
           </p>
         </div>
         <div>
@@ -42,16 +39,6 @@ export function Footer() {
       <div className="mx-auto mt-6 max-w-6xl border-t border-border pt-5 text-xs text-muted-foreground">
         &copy; 2026 Mantoz Fut. Todos os direitos reservados.
       </div>
-
-      <a
-        href={`https://wa.me/${WHATSAPP_NUMBER}`}
-        target="_blank"
-        rel="noreferrer"
-        aria-label="Falar no WhatsApp"
-        className="fixed bottom-5 right-5 z-30 flex h-12 w-12 items-center justify-center rounded-full bg-whatsapp text-white shadow-lg transition-colors hover:bg-whatsapp-hover"
-      >
-        <MessageCircle className="h-5 w-5" />
-      </a>
     </footer>
   );
 }
