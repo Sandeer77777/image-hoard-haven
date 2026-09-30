@@ -5,6 +5,9 @@ import { Hero } from "@/components/Hero";
 import { Catalog } from "@/components/Catalog";
 import { CartDrawer } from "@/components/CartDrawer";
 import { Footer } from "@/components/Footer";
+import { PromoBanner } from "@/components/PromoBanner";
+import { Featured } from "@/components/Featured";
+import { FloatingWhatsApp } from "@/components/FloatingWhatsApp";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -32,11 +35,14 @@ function Index() {
   return (
     <CartProvider>
       <div className="min-h-screen bg-background">
+        <PromoBanner />
         <Header />
         <Hero />
+        <Featured />
         <Catalog />
         <Footer />
         <CartDrawer />
+        <FloatingWhatsApp />
       </div>
     </CartProvider>
   );
