@@ -5,8 +5,7 @@ import { formatPrice, useCart } from "@/lib/cart";
 import {
   ALL_SIZES,
   NAME_NUMBER_PRICE,
-  COMBO_DISCOUNT,
-  COMBO_MINIMUM,
+  FREE_SHIRT_INTERVAL,
   SPECIAL_SIZE_PRICE,
   customizationSummary,
   emptyCustomization,
@@ -93,8 +92,6 @@ function ProductDetail({ product }: { product: Product }) {
     : { ...custom, playerName: "", playerNumber: "" };
   const lines = priceLines(product, effective);
   const total = unitPrice(product, effective);
-  const nextCount = count + 1;
-  const comboPrice = total - (nextCount >= COMBO_MINIMUM ? COMBO_DISCOUNT : 0);
   const moveImage = (direction: number) => setMainImage((current) => (current + direction + images.length) % images.length);
 
   const handleAdd = () => {
@@ -110,7 +107,7 @@ function ProductDetail({ product }: { product: Product }) {
       msg += `${part}\n`;
     });
     msg += `\nTotal desta camisa: ${formatPrice(total)}`;
-    msg += `\nCombo 4+: ${formatPrice(COMBO_DISCOUNT)} de desconto por camisa a partir de ${COMBO_MINIMUM} peças no mesmo pedido. Para aproveitar, adicione as camisas ao carrinho.`;
+    msg += `\nLeve ${FREE_SHIRT_INTERVAL}, pague ${FREE_SHIRT_INTERVAL - 1}: a camisa de menor valor base sai grátis no carrinho (adicionais à parte).`;
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank");
   };
 
@@ -187,7 +184,7 @@ function ProductDetail({ product }: { product: Product }) {
               {formatPrice(total)}
             </span>
           </div>
-          <p className="mb-6 text-sm text-muted-foreground">Combo 4+: {formatPrice(product.price - COMBO_DISCOUNT)} por camisa a partir de 4 peças. Adicionais à parte.</p>
+          <p className="mb-6 text-sm text-muted-foreground">Leve 4, pague 3: misture modelos e tamanhos; a camisa de menor valor base sai grátis. Adicionais à parte.</p>
 
           {/* Tamanho */}
           <div className="mb-6">
@@ -293,7 +290,7 @@ function ProductDetail({ product }: { product: Product }) {
             <MessageCircle className="h-4 w-4" />
             Comprar pelo WhatsApp
           </button>
-          {nextCount >= COMBO_MINIMUM && <p className="mt-2 text-xs text-muted-foreground">No carrinho, esta camisa entra por {formatPrice(comboPrice)} com o Combo 4+.</p>}
+          {count + 1 >= FREE_SHIRT_INTERVAL && <p className="mt-2 text-xs text-muted-foreground">O carrinho mostra qual camisa de menor valor base ficou grátis e o total do pedido.</p>}
         </div>
       </div>
 
