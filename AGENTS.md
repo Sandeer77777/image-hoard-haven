@@ -10,5 +10,5 @@
 <!-- LOVABLE:END -->
 
 - Keep product records and photo ordering in `src/data/products.ts`, referencing `.asset.json` CDN pointers for downloaded public product photos; this preserves the editable catalog while avoiding repository binaries and third-party image hotlinks.
-- Keep category prices and Combo 4+ rules in `src/lib/pricing.ts`, with cart quantity driving the discount in `src/lib/cart.tsx`; this keeps mixed orders, add-ons, and WhatsApp totals consistent.
+- Keep category prices and the “Leve 4, pague 3” cheapest-base-shirt-free rule in `src/lib/pricing.ts`, applied by `src/lib/cart-store.ts`; this keeps mixed orders, add-ons, and WhatsApp totals consistent.
 - Keep cart state in a shared external store subscribed through `useSyncExternalStore`; this preserves mixed-product cart contents across routes without provider/context identity failures during live-preview updates.

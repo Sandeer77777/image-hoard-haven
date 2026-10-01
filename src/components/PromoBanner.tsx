@@ -7,7 +7,7 @@ export function PromoBanner() {
 
   return (
     <div className="relative bg-gold px-10 py-2 text-center text-[12px] font-medium tracking-wide text-white">
-      Combo 4+: R$ 30 de desconto por camisa &nbsp;|&nbsp; Frete grátis a partir de 5 camisas
+      Leve 4, pague 3: a camisa de menor valor sai grátis &nbsp;|&nbsp; Frete grátis a partir de 5 camisas
       <button
         onClick={() => setVisible(false)}
         aria-label="Fechar aviso"

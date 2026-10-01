@@ -15,9 +15,21 @@ export const CATEGORY_PRICES: Record<Category, number> = {
   Retrô: 169.9,
 };
 
-export const COMBO_MINIMUM = 4;
-export const COMBO_DISCOUNT = 30;
-export const comboDiscount = (quantity: number) => quantity >= COMBO_MINIMUM ? COMBO_DISCOUNT : 0;
+export const FREE_SHIRT_INTERVAL = 4;
+
+/** Uma camisa de menor preço base grátis a cada quatro, sem descontar adicionais. */
+export function freeShirtDiscounts(items: readonly { key: string; qty: number; basePrice: number }[]): Record<string, number> {
+  const totalQuantity = items.reduce((sum, item) => sum + item.qty, 0);
+  let freeCount = Math.floor(totalQuantity / FREE_SHIRT_INTERVAL);
+  const discounts: Record<string, number> = {};
+  for (const item of [...items].sort((a, b) => a.basePrice - b.basePrice || a.key.localeCompare(b.key))) {
+    const freeHere = Math.min(freeCount, item.qty);
+    if (freeHere > 0) discounts[item.key] = freeHere * item.basePrice;
+    freeCount -= freeHere;
+    if (freeCount === 0) break;
+  }
+  return discounts;
+}
 
 export const CATEGORIES = Object.keys(CATEGORY_PRICES) as Category[];
 
@@ -56,9 +68,8 @@ export interface PriceLine {
 }
 
 /** Linhas do resumo de preço (base + adicionais) */
-export function priceLines(product: Product, c: Customization, quantity = 1): PriceLine[] {
+export function priceLines(product: Product, c: Customization): PriceLine[] {
   const lines: PriceLine[] = [{ label: `Camisa ${product.category}`, value: product.price }];
-  if (comboDiscount(quantity)) lines.push({ label: "Combo 4+", value: -COMBO_DISCOUNT });
   if (hasNameNumber(c)) lines.push({ label: "Nome e número", value: NAME_NUMBER_PRICE });
   if (isSpecialSize(c.size))
     lines.push({ label: `Tamanho ${c.size}`, value: SPECIAL_SIZE_PRICE });
@@ -66,8 +77,8 @@ export function priceLines(product: Product, c: Customization, quantity = 1): Pr
 }
 
 /** Preço final de uma unidade com as personalizações escolhidas */
-export function unitPrice(product: Product, c: Customization, quantity = 1): number {
-  return priceLines(product, c, quantity).reduce((sum, l) => sum + l.value, 0);
+export function unitPrice(product: Product, c: Customization): number {
+  return priceLines(product, c).reduce((sum, l) => sum + l.value, 0);
 }
 
 /** Resumo em texto das personalizações, para o carrinho e o WhatsApp */
