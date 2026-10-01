@@ -5,7 +5,7 @@ export function Hero() {
         Vista a camisa do seu time
       </h1>
       <p className="hero-sub mx-auto mt-4 max-w-lg text-[15px] font-normal leading-relaxed text-muted-foreground">
-        Camisas oficiais, retrô e atuais dos maiores clubes. Entrega rápida, preço justo.
+        Camisas retrô e atuais dos maiores clubes. Escolha a sua e faça seu pedido pelo WhatsApp.
       </p>
       <a href="#catalogo" className="btn-gold btn-hero mt-8">
         Ver catálogo
