@@ -70,7 +70,7 @@ function ProductPage() {
   return (
       <div className="min-h-screen bg-background">
         <Header />
-        <ProductDetail product={product} />
+        <ProductDetail key={product.id} product={product} />
         <Footer />
         <CartDrawer />
         <FloatingWhatsApp />
