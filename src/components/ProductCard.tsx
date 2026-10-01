@@ -31,6 +31,7 @@ export function ProductCard({ product, index }: { product: Product; index: numbe
             <span className="text-[12px] font-normal text-muted-foreground">A partir de </span>
             {formatPrice(product.price)}
           </div>
+          <div className="mb-3 text-xs text-muted-foreground">Combo 4+: {formatPrice(product.price - 30)} por camisa</div>
           <span className="btn-add block w-full text-center sm:inline-block sm:w-auto">
             Ver opções
           </span>

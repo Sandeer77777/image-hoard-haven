@@ -32,7 +32,7 @@ export function ProductCarousel({ images, alt, className = "aspect-[3/4]" }: Pro
   return (
     <div className="carousel-root">
       <div
-        className={`product-media relative flex ${className} items-center justify-center overflow-hidden`}
+          className={`product-media relative flex ${className} touch-pan-y items-center justify-center overflow-hidden`}
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
       >
