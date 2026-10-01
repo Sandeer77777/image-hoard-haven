@@ -1,5 +1,5 @@
 import type { Product } from "@/data/products";
-import { comboDiscount, emptyCustomization, unitPrice, type Customization } from "@/lib/pricing";
+import { freeShirtDiscounts, emptyCustomization, unitPrice, type Customization } from "@/lib/pricing";
 
 export interface CartItem {
   key: string;
@@ -14,12 +14,12 @@ export interface CartState {
   count: number;
   total: number;
   savings: number;
-  discountPerItem: number;
+  discountsByKey: Record<string, number>;
   isOpen: boolean;
 }
 
 const initialState: CartState = {
-  items: [], count: 0, total: 0, savings: 0, discountPerItem: 0, isOpen: false,
+  items: [], count: 0, total: 0, savings: 0, discountsByKey: {}, isOpen: false,
 };
 
 let state: CartState = initialState;
@@ -34,10 +34,10 @@ export const subscribeCart = (listener: () => void) => {
 
 function update(items: CartItem[], isOpen: boolean) {
   const count = items.reduce((sum, item) => sum + item.qty, 0);
-  const discountPerItem = comboDiscount(count);
-  const savings = count * discountPerItem;
+  const discountsByKey = freeShirtDiscounts(items.map((item) => ({ key: item.key, qty: item.qty, basePrice: item.product.price })));
+  const savings = Object.values(discountsByKey).reduce((sum, discount) => sum + discount, 0);
   const total = items.reduce((sum, item) => sum + item.unit * item.qty, 0) - savings;
-  state = { items, isOpen, count, discountPerItem, savings, total };
+  state = { items, isOpen, count, discountsByKey, savings, total };
   listeners.forEach((listener) => listener());
 }
 

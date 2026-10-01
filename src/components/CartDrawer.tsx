@@ -1,10 +1,10 @@
 import { MessageCircle, Minus, Plus, Shirt, X } from "lucide-react";
 import { formatPrice, useCart } from "@/lib/cart";
 import { WHATSAPP_NUMBER } from "@/data/products";
-import { COMBO_DISCOUNT, COMBO_MINIMUM, customizationSummary } from "@/lib/pricing";
+import { FREE_SHIRT_INTERVAL, customizationSummary } from "@/lib/pricing";
 
 export function CartDrawer() {
-  const { items, total, count, savings, discountPerItem, isOpen, close, changeQty, remove } = useCart();
+  const { items, total, count, savings, discountsByKey, isOpen, close, changeQty, remove } = useCart();
 
   const sendToWhatsApp = () => {
     if (!items.length) return;
@@ -12,9 +12,10 @@ export function CartDrawer() {
     items.forEach((i) => {
       msg += `${i.qty}x ${i.product.name} — ${i.product.team}\n`;
       msg += `   ${customizationSummary(i.custom).join(" | ")}\n`;
-      msg += `   ${formatPrice(i.unit - discountPerItem)} por camisa · Subtotal: ${formatPrice((i.unit - discountPerItem) * i.qty)}\n\n`;
+      const freeCount = Math.round((discountsByKey[i.key] ?? 0) / i.product.price);
+      msg += `   ${formatPrice(i.unit)} por camisa · Subtotal antes da oferta: ${formatPrice(i.unit * i.qty)}${freeCount ? ` · ${freeCount} camisa${freeCount > 1 ? "s" : ""} grátis (preço base)` : ""}\n\n`;
     });
-    if (savings) msg += `Combo 4+: desconto de ${formatPrice(savings)} (${formatPrice(discountPerItem)} por camisa)\n`;
+    if (savings) msg += `Leve 4, pague 3: economia de ${formatPrice(savings)} na${Math.floor(count / FREE_SHIRT_INTERVAL) > 1 ? "s" : ""} camisa${Math.floor(count / FREE_SHIRT_INTERVAL) > 1 ? "s" : ""} de menor valor (adicionais cobrados à parte)\n`;
     msg += `*${count} ${count === 1 ? "camisa" : "camisas"} — Total: ${formatPrice(total)}*`;
     if (count >= 5) msg += "\n(Frete grátis)";
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank");
@@ -92,9 +93,10 @@ export function CartDrawer() {
                       </button>
                     </div>
                     <div className="whitespace-nowrap text-sm font-semibold text-foreground">
-                      {formatPrice((i.unit - discountPerItem) * i.qty)}
+                      {formatPrice(i.unit * i.qty)}
                     </div>
                   </div>
+                  {(discountsByKey[i.key] ?? 0) > 0 && <div className="mt-1 text-xs text-gold">{Math.round((discountsByKey[i.key] ?? 0) / i.product.price)} {Math.round((discountsByKey[i.key] ?? 0) / i.product.price) === 1 ? "camisa grátis" : "camisas grátis"} (preço base)</div>}
                   <button
                     onClick={() => remove(i.key)}
                     className="mt-1.5 text-xs text-muted-foreground underline transition-colors hover:text-destructive"
@@ -109,9 +111,9 @@ export function CartDrawer() {
 
         <div className="flex-shrink-0 border-t border-border px-5 py-5 pb-[calc(1.25rem+env(safe-area-inset-bottom))]">
           <div className="mb-4 bg-secondary px-3 py-2.5 text-xs leading-relaxed text-muted-foreground">
-            {savings ? `Combo 4+ aplicado: você economiza ${formatPrice(savings)}.` : `Adicione ${Math.max(0, COMBO_MINIMUM - count)} ${COMBO_MINIMUM - count === 1 ? "camisa" : "camisas"} para ganhar ${formatPrice(COMBO_DISCOUNT)} de desconto por camisa.`} Frete grátis a partir de 5 camisas.
+            {count >= FREE_SHIRT_INTERVAL ? `Leve 4, pague 3: você economiza ${formatPrice(savings)}. A camisa de menor valor base sai grátis a cada 4 peças; adicionais à parte.` : `Adicione ${FREE_SHIRT_INTERVAL - count} ${FREE_SHIRT_INTERVAL - count === 1 ? "camisa" : "camisas"} para levar a de menor valor grátis.`} Frete grátis a partir de 5 camisas.
           </div>
-          {savings > 0 && <div className="mb-2 flex justify-between text-sm text-muted-foreground"><span>Desconto Combo 4+</span><span>−{formatPrice(savings)}</span></div>}
+          {savings > 0 && <div className="mb-2 flex justify-between text-sm text-muted-foreground"><span>Camisa grátis (menor valor)</span><span>−{formatPrice(savings)}</span></div>}
           <div className="mb-4 flex items-baseline justify-between">
             <span className="text-sm text-muted-foreground">Total</span>
             <span className="font-display text-[22px] font-bold text-foreground">
