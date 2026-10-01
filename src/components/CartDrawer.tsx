@@ -13,7 +13,7 @@ export function CartDrawer() {
       msg += `${i.qty}x ${i.product.name} — ${i.product.team}\n`;
       msg += `   ${customizationSummary(i.custom).join(" | ")}\n`;
       const freeCount = Math.round((discountsByKey[i.key] ?? 0) / i.product.price);
-      msg += `   ${formatPrice(i.unit)} por camisa · ${freeCount ? `${freeCount} camisa${freeCount > 1 ? "s" : ""} grátis (preço base)` : "sem camisa grátis"} · Subtotal: ${formatPrice(i.unit * i.qty - (discountsByKey[i.key] ?? 0))}\n\n`;
+      msg += `   ${formatPrice(i.unit)} por camisa · Subtotal antes da oferta: ${formatPrice(i.unit * i.qty)}${freeCount ? ` · ${freeCount} camisa${freeCount > 1 ? "s" : ""} grátis (preço base)` : ""}\n\n`;
     });
     if (savings) msg += `Leve 4, pague 3: economia de ${formatPrice(savings)} na${Math.floor(count / FREE_SHIRT_INTERVAL) > 1 ? "s" : ""} camisa${Math.floor(count / FREE_SHIRT_INTERVAL) > 1 ? "s" : ""} de menor valor (adicionais cobrados à parte)\n`;
     msg += `*${count} ${count === 1 ? "camisa" : "camisas"} — Total: ${formatPrice(total)}*`;
@@ -93,7 +93,7 @@ export function CartDrawer() {
                       </button>
                     </div>
                     <div className="whitespace-nowrap text-sm font-semibold text-foreground">
-                      {formatPrice(i.unit * i.qty - (discountsByKey[i.key] ?? 0))}
+                      {formatPrice(i.unit * i.qty)}
                     </div>
                   </div>
                   {(discountsByKey[i.key] ?? 0) > 0 && <div className="mt-1 text-xs text-gold">{Math.round((discountsByKey[i.key] ?? 0) / i.product.price)} {Math.round((discountsByKey[i.key] ?? 0) / i.product.price) === 1 ? "camisa grátis" : "camisas grátis"} (preço base)</div>}
