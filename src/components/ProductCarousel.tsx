@@ -9,7 +9,7 @@ interface Props {
 }
 
 /** Carrossel de fotos: setas no desktop, swipe no mobile, dots sempre. */
-export function ProductCarousel({ images, alt, className = "aspect-[3/4]" }: Props) {
+export function ProductCarousel({ images, alt, className = "aspect-square" }: Props) {
   const [index, setIndex] = useState(0);
   const startX = useRef<number | null>(null);
   const total = images.length;

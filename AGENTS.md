@@ -10,3 +10,4 @@
 <!-- LOVABLE:END -->
 
 - Keep product records and photo ordering in `src/data/products.ts`, referencing `.asset.json` CDN pointers for downloaded public product photos; this preserves the editable catalog while avoiding repository binaries and third-party image hotlinks.
+- Keep category prices and Combo 4+ rules in `src/lib/pricing.ts`, with cart quantity driving the discount in `src/lib/cart.tsx`; this keeps mixed orders, add-ons, and WhatsApp totals consistent.

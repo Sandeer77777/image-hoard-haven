@@ -1,7 +1,7 @@
 import { MessageCircle, Minus, Plus, Shirt, X } from "lucide-react";
 import { formatPrice, useCart } from "@/lib/cart";
 import { WHATSAPP_NUMBER } from "@/data/products";
-import { customizationSummary } from "@/lib/pricing";
+import { COMBO_DISCOUNT, COMBO_MINIMUM, customizationSummary } from "@/lib/pricing";
 
 export function CartDrawer() {
   const { items, total, count, savings, discountPerItem, isOpen, close, changeQty, remove } = useCart();
@@ -109,7 +109,7 @@ export function CartDrawer() {
 
         <div className="flex-shrink-0 border-t border-border px-5 py-5 pb-[calc(1.25rem+env(safe-area-inset-bottom))]">
           <div className="mb-4 bg-secondary px-3 py-2.5 text-xs leading-relaxed text-muted-foreground">
-            {savings ? `Combo 4+ aplicado: você economiza ${formatPrice(savings)}.` : `Adicione ${Math.max(0, 4 - count)} ${4 - count === 1 ? "camisa" : "camisas"} para ganhar ${formatPrice(30)} de desconto por camisa.`} Frete grátis a partir de 5 camisas.
+            {savings ? `Combo 4+ aplicado: você economiza ${formatPrice(savings)}.` : `Adicione ${Math.max(0, COMBO_MINIMUM - count)} ${COMBO_MINIMUM - count === 1 ? "camisa" : "camisas"} para ganhar ${formatPrice(COMBO_DISCOUNT)} de desconto por camisa.`} Frete grátis a partir de 5 camisas.
           </div>
           {savings > 0 && <div className="mb-2 flex justify-between text-sm text-muted-foreground"><span>Desconto Combo 4+</span><span>−{formatPrice(savings)}</span></div>}
           <div className="mb-4 flex items-baseline justify-between">

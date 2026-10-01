@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { formatPrice } from "@/lib/cart";
 import { productImages, type Product } from "@/data/products";
+import { COMBO_DISCOUNT } from "@/lib/pricing";
 import { ProductCarousel } from "./ProductCarousel";
 
 export function ProductCard({ product, index }: { product: Product; index: number }) {
@@ -31,7 +32,7 @@ export function ProductCard({ product, index }: { product: Product; index: numbe
             <span className="text-[12px] font-normal text-muted-foreground">A partir de </span>
             {formatPrice(product.price)}
           </div>
-          <div className="mb-3 text-xs text-muted-foreground">Combo 4+: {formatPrice(product.price - 30)} por camisa</div>
+          <div className="mb-3 text-xs text-muted-foreground">Combo 4+: {formatPrice(product.price - COMBO_DISCOUNT)} por camisa</div>
           <span className="btn-add block w-full text-center sm:inline-block sm:w-auto">
             Ver opções
           </span>

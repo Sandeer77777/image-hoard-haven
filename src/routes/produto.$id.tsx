@@ -130,7 +130,7 @@ function ProductDetail({ product }: { product: Product }) {
         {/* Galeria */}
         <div className="min-w-0">
           <div
-            className="product-media relative flex aspect-[3/4] w-full touch-pan-y items-center justify-center overflow-hidden"
+            className="product-media relative flex aspect-square w-full touch-pan-y items-center justify-center overflow-hidden"
             onTouchStart={(event) => { touchStartX.current = event.touches[0]?.clientX ?? null; }}
             onTouchEnd={(event) => {
               const endX = event.changedTouches[0]?.clientX;
