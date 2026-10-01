@@ -30,6 +30,11 @@ export const Route = createFileRoute("/produto/$id")({
       return {
         meta: [
           { title: "Camisa não encontrada — Mantoz Fut" },
+          { name: "description", content: "Esta camisa não foi encontrada no catálogo da Mantoz Fut." },
+          { property: "og:title", content: "Camisa não encontrada — Mantoz Fut" },
+          { property: "og:description", content: "Esta camisa não foi encontrada no catálogo da Mantoz Fut." },
+          { property: "og:type", content: "product" },
+          { name: "twitter:card", content: "summary_large_image" },
           { name: "robots", content: "noindex" },
         ],
       };
