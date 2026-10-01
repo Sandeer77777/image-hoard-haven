@@ -139,7 +139,7 @@ function ProductDetail({ product }: { product: Product }) {
               <img
                 src={images[mainImage]}
                 alt={`${product.name} — ${product.team}`}
-                className="h-full w-full object-cover"
+                 className="h-full w-full object-contain"
               />
             ) : (
               <span className="product-placeholder flex flex-col items-center gap-2">
@@ -159,7 +159,7 @@ function ProductDetail({ product }: { product: Product }) {
                   className={`h-20 w-16 flex-shrink-0 overflow-hidden border ${i === mainImage ? "border-gold" : "border-border"}`}
                   aria-label={`Ver foto ${i + 1}`}
                 >
-                  <img src={src} alt="" className="h-full w-full object-cover" />
+                   <img src={src} alt="" className="h-full w-full object-contain" />
                 </button>
               ))}
             </div>
