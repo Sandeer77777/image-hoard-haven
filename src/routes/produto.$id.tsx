@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, Check, ChevronLeft, ChevronRight, MessageCircle, Shirt, X } from "lucide-react";
-import { CartProvider, formatPrice, useCart } from "@/lib/cart";
+import { formatPrice, useCart } from "@/lib/cart";
 import {
   ALL_SIZES,
   NAME_NUMBER_PRICE,
@@ -68,7 +68,6 @@ export const Route = createFileRoute("/produto/$id")({
 function ProductPage() {
   const { product } = Route.useLoaderData();
   return (
-    <CartProvider>
       <div className="min-h-screen bg-background">
         <Header />
         <ProductDetail product={product} />
@@ -76,7 +75,6 @@ function ProductPage() {
         <CartDrawer />
         <FloatingWhatsApp />
       </div>
-    </CartProvider>
   );
 }
 
