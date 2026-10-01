@@ -1,6 +1,7 @@
-import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
+import { useCallback, useContext, useMemo, useState, type ReactNode } from "react";
 import type { Product } from "@/data/products";
 import { comboDiscount, emptyCustomization, unitPrice, type Customization } from "@/lib/pricing";
+import { CartContext } from "./cart-context";
 
 export interface CartItem {
   key: string;
@@ -20,7 +21,7 @@ const keyOf = (product: Product, c: Customization) =>
     c.playerNumber.trim(),
   ].join("__");
 
-interface CartContextValue {
+export interface CartContextValue {
   items: CartItem[];
   count: number;
   total: number;
@@ -33,8 +34,6 @@ interface CartContextValue {
   open: () => void;
   close: () => void;
 }
-
-const CartContext = createContext<CartContextValue | null>(null);
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
