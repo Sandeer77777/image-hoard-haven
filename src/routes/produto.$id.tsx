@@ -128,7 +128,7 @@ function ProductDetail({ product }: { product: Product }) {
 
       <div className="grid gap-10 md:grid-cols-[3fr_2fr]">
         {/* Galeria */}
-        <div>
+        <div className="min-w-0">
           <button
             type="button"
             onClick={() => images.length && setZoom(true)}
@@ -167,7 +167,7 @@ function ProductDetail({ product }: { product: Product }) {
         </div>
 
         {/* Informações e personalização */}
-        <div>
+        <div className="min-w-0">
           <div className="mb-1 text-[11px] font-medium uppercase tracking-wide text-gold">
             {product.team}
           </div>

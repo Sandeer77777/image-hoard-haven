@@ -76,7 +76,7 @@ export const products: Product[] = [
   { id: 8, name: "Camisa Retrô 2005 Mundial", team: "São Paulo", type: "Retrô", camp: "Libertadores", season: "2005", category: "Retrô", price: R, image: "" },
   { id: 9, name: "Camisa I 2024/25", team: "Cruzeiro", type: "Atual", camp: "Brasileirão", season: "2024/25", category: "Torcedor", price: T, image: "" },
   { id: 10, name: "Camisa Retrô 1997 Libertadores", team: "Cruzeiro", type: "Retrô", camp: "Libertadores", season: "1997", category: "Retrô", price: R, image: "" },
-  { id: 11, name: "Camisa II Feminina 2026/27", team: "Atlético-MG", type: "Atual", camp: "Brasileirão", season: "2026/27", category: "Torcedor", price: T, image: atleticoPhotos[0], images: atleticoPhotos.slice(1) },
+  { id: 11, name: "Camisa II Feminina 2026/27", team: "Atlético-MG", type: "Atual", camp: "Brasileirão", season: "2026/27", category: "Torcedor", price: T, image: atletico6.url, images: atleticoPhotos.slice(1) },
   { id: 12, name: "Camisa Retrô 2013 Libertadores", team: "Atlético-MG", type: "Retrô", camp: "Libertadores", season: "2013", category: "Retrô", price: R, image: "" },
   { id: 13, name: "Camisa I 2024/25", team: "Botafogo", type: "Atual", camp: "Brasileirão", season: "2024/25", category: "Torcedor", price: T, image: "" },
   { id: 14, name: "Camisa Retrô 1995", team: "Botafogo", type: "Retrô", camp: "Copa do Brasil", season: "1995", category: "Retrô", price: R, image: "" },
@@ -86,7 +86,7 @@ export const products: Product[] = [
   { id: 18, name: "Camisa Retrô 1983 Libertadores", team: "Grêmio", type: "Retrô", camp: "Libertadores", season: "1983", category: "Retrô", price: R, image: "" },
   { id: 19, name: "Camisa I 2024/25", team: "Santos", type: "Atual", camp: "Brasileirão", season: "2024/25", category: "Torcedor", price: T, image: "" },
   { id: 20, name: "Camisa Retrô Pelé", team: "Santos", type: "Retrô", camp: "Libertadores", season: "1970", category: "Retrô", price: R, image: "" },
-  { id: 21, name: "Camisa I 2026/27 — Versão Jogador", team: "Barcelona", type: "Atual", camp: "La Liga", season: "2026/27", category: "Jogador", price: J, image: barcelonaPhotos[0], images: barcelonaPhotos.slice(1) },
+  { id: 21, name: "Camisa I 2026/27 — Versão Jogador", team: "Barcelona", type: "Atual", camp: "La Liga", season: "2026/27", category: "Jogador", price: J, image: barcelona1.url, images: barcelonaPhotos.slice(1) },
 ];
 
 export const getProduct = (id: number) => products.find((p) => p.id === id);
