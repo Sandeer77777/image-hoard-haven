@@ -52,7 +52,7 @@ export function ProductCarousel({ images, alt, className = "aspect-[3/4]" }: Pro
                 src={src}
                 alt={`${alt} — foto ${i + 1}`}
                 loading="lazy"
-                className="h-full w-full flex-shrink-0 object-cover"
+                className="h-full w-full flex-shrink-0 object-contain"
               />
             ))}
           </div>

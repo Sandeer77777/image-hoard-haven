@@ -30,6 +30,11 @@ export const Route = createFileRoute("/produto/$id")({
       return {
         meta: [
           { title: "Camisa não encontrada — Mantoz Fut" },
+          { name: "description", content: "Esta camisa não foi encontrada no catálogo da Mantoz Fut." },
+          { property: "og:title", content: "Camisa não encontrada — Mantoz Fut" },
+          { property: "og:description", content: "Esta camisa não foi encontrada no catálogo da Mantoz Fut." },
+          { property: "og:type", content: "product" },
+          { name: "twitter:card", content: "summary_large_image" },
           { name: "robots", content: "noindex" },
         ],
       };
@@ -128,7 +133,7 @@ function ProductDetail({ product }: { product: Product }) {
 
       <div className="grid gap-10 md:grid-cols-[3fr_2fr]">
         {/* Galeria */}
-        <div>
+        <div className="min-w-0">
           <button
             type="button"
             onClick={() => images.length && setZoom(true)}
@@ -139,7 +144,7 @@ function ProductDetail({ product }: { product: Product }) {
               <img
                 src={images[mainImage]}
                 alt={`${product.name} — ${product.team}`}
-                className="h-full w-full object-cover"
+                 className="h-full w-full object-contain"
               />
             ) : (
               <span className="product-placeholder flex flex-col items-center gap-2">
@@ -159,7 +164,7 @@ function ProductDetail({ product }: { product: Product }) {
                   className={`h-20 w-16 flex-shrink-0 overflow-hidden border ${i === mainImage ? "border-gold" : "border-border"}`}
                   aria-label={`Ver foto ${i + 1}`}
                 >
-                  <img src={src} alt="" className="h-full w-full object-cover" />
+                   <img src={src} alt="" className="h-full w-full object-contain" />
                 </button>
               ))}
             </div>
@@ -167,7 +172,7 @@ function ProductDetail({ product }: { product: Product }) {
         </div>
 
         {/* Informações e personalização */}
-        <div>
+        <div className="min-w-0">
           <div className="mb-1 text-[11px] font-medium uppercase tracking-wide text-gold">
             {product.team}
           </div>

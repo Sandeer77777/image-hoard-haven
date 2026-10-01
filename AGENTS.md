@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Keep product records and photo ordering in `src/data/products.ts`, referencing `.asset.json` CDN pointers for downloaded public product photos; this preserves the editable catalog while avoiding repository binaries and third-party image hotlinks.
