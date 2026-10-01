@@ -96,7 +96,7 @@ export function CartDrawer() {
                       {formatPrice(i.unit * i.qty - (discountsByKey[i.key] ?? 0))}
                     </div>
                   </div>
-                  {(discountsByKey[i.key] ?? 0) > 0 && <div className="mt-1 text-xs text-gold">{Math.round(discountsByKey[i.key] / i.product.price)} {Math.round(discountsByKey[i.key] / i.product.price) === 1 ? "camisa grátis" : "camisas grátis"} (preço base)</div>}
+                  {(discountsByKey[i.key] ?? 0) > 0 && <div className="mt-1 text-xs text-gold">{Math.round((discountsByKey[i.key] ?? 0) / i.product.price)} {Math.round((discountsByKey[i.key] ?? 0) / i.product.price) === 1 ? "camisa grátis" : "camisas grátis"} (preço base)</div>}
                   <button
                     onClick={() => remove(i.key)}
                     className="mt-1.5 text-xs text-muted-foreground underline transition-colors hover:text-destructive"
