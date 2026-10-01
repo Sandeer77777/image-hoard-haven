@@ -1,10 +1,10 @@
 import { MessageCircle, Minus, Plus, Shirt, X } from "lucide-react";
 import { formatPrice, useCart } from "@/lib/cart";
 import { WHATSAPP_NUMBER } from "@/data/products";
-import { customizationSummary } from "@/lib/pricing";
+import { COMBO_DISCOUNT, COMBO_MINIMUM, customizationSummary } from "@/lib/pricing";
 
 export function CartDrawer() {
-  const { items, total, count, isOpen, close, changeQty, remove } = useCart();
+  const { items, total, count, savings, discountPerItem, isOpen, close, changeQty, remove } = useCart();
 
   const sendToWhatsApp = () => {
     if (!items.length) return;
@@ -12,8 +12,9 @@ export function CartDrawer() {
     items.forEach((i) => {
       msg += `${i.qty}x ${i.product.name} — ${i.product.team}\n`;
       msg += `   ${customizationSummary(i.custom).join(" | ")}\n`;
-      msg += `   Subtotal: ${formatPrice(i.unit * i.qty)}\n\n`;
+      msg += `   ${formatPrice(i.unit - discountPerItem)} por camisa · Subtotal: ${formatPrice((i.unit - discountPerItem) * i.qty)}\n\n`;
     });
+    if (savings) msg += `Combo 4+: desconto de ${formatPrice(savings)} (${formatPrice(discountPerItem)} por camisa)\n`;
     msg += `*${count} ${count === 1 ? "camisa" : "camisas"} — Total: ${formatPrice(total)}*`;
     if (count >= 5) msg += "\n(Frete grátis)";
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank");
@@ -57,7 +58,7 @@ export function CartDrawer() {
                     <img
                       src={i.product.image}
                       alt={i.product.name}
-                      className="h-full w-full object-cover"
+                       className="h-full w-full object-contain"
                     />
                   ) : (
                     <Shirt className="h-6 w-6 text-muted-foreground" strokeWidth={1} />
@@ -91,7 +92,7 @@ export function CartDrawer() {
                       </button>
                     </div>
                     <div className="whitespace-nowrap text-sm font-semibold text-foreground">
-                      {formatPrice(i.unit * i.qty)}
+                      {formatPrice((i.unit - discountPerItem) * i.qty)}
                     </div>
                   </div>
                   <button
@@ -108,9 +109,9 @@ export function CartDrawer() {
 
         <div className="flex-shrink-0 border-t border-border px-5 py-5 pb-[calc(1.25rem+env(safe-area-inset-bottom))]">
           <div className="mb-4 bg-secondary px-3 py-2.5 text-xs leading-relaxed text-muted-foreground">
-            Frete grátis a partir de 5 camisas. Finalize seu pedido pelo WhatsApp — rápido e sem
-            burocracia.
+            {savings ? `Combo 4+ aplicado: você economiza ${formatPrice(savings)}.` : `Adicione ${Math.max(0, COMBO_MINIMUM - count)} ${COMBO_MINIMUM - count === 1 ? "camisa" : "camisas"} para ganhar ${formatPrice(COMBO_DISCOUNT)} de desconto por camisa.`} Frete grátis a partir de 5 camisas.
           </div>
+          {savings > 0 && <div className="mb-2 flex justify-between text-sm text-muted-foreground"><span>Desconto Combo 4+</span><span>−{formatPrice(savings)}</span></div>}
           <div className="mb-4 flex items-baseline justify-between">
             <span className="text-sm text-muted-foreground">Total</span>
             <span className="font-display text-[22px] font-bold text-foreground">

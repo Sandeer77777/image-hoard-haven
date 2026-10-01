@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { ArrowLeft, Check, MessageCircle, Shirt, X } from "lucide-react";
-import { CartProvider, formatPrice, useCart } from "@/lib/cart";
+import { ArrowLeft, Check, ChevronLeft, ChevronRight, MessageCircle, Shirt, X } from "lucide-react";
+import { formatPrice, useCart } from "@/lib/cart";
 import {
   ALL_SIZES,
   NAME_NUMBER_PRICE,
-  PATCHES,
+  COMBO_DISCOUNT,
+  COMBO_MINIMUM,
   SPECIAL_SIZE_PRICE,
   customizationSummary,
   emptyCustomization,
@@ -41,7 +42,7 @@ export const Route = createFileRoute("/produto/$id")({
     }
     const { product } = loaderData;
     const title = `${product.name} — ${product.team} | Mantoz Fut`;
-    const description = `${product.name} do ${product.team} (${product.type} · ${product.camp}) a partir de ${formatPrice(product.price)}. Personalize com nome, número e patches e peça pelo WhatsApp.`;
+    const description = `${product.name} do ${product.team} (${product.type} · ${product.camp}) a partir de ${formatPrice(product.price)}. Escolha tamanho, nome e número e peça pelo WhatsApp.`;
     return {
       meta: [
         { title },
@@ -67,43 +68,34 @@ export const Route = createFileRoute("/produto/$id")({
 function ProductPage() {
   const { product } = Route.useLoaderData();
   return (
-    <CartProvider>
       <div className="min-h-screen bg-background">
         <Header />
-        <ProductDetail product={product} />
+        <ProductDetail key={product.id} product={product} />
         <Footer />
         <CartDrawer />
         <FloatingWhatsApp />
       </div>
-    </CartProvider>
   );
 }
 
 function ProductDetail({ product }: { product: Product }) {
-  const { add } = useCart();
+  const { add, count } = useCart();
   const images = productImages(product);
   const [mainImage, setMainImage] = useState(0);
+  const touchStartX = useRef<number | null>(null);
   const [zoom, setZoom] = useState(false);
   const [custom, setCustom] = useState(() => emptyCustomization());
   const [withName, setWithName] = useState(false);
   const [added, setAdded] = useState(false);
-
-  const allowedPatches = product.patches
-    ? PATCHES.filter((p) => product.patches?.includes(p.id))
-    : PATCHES;
 
   const effective = withName
     ? custom
     : { ...custom, playerName: "", playerNumber: "" };
   const lines = priceLines(product, effective);
   const total = unitPrice(product, effective);
-  const hasExtras = total > product.price;
-
-  const togglePatch = (id: string) =>
-    setCustom((c) => ({
-      ...c,
-      patches: c.patches.includes(id) ? c.patches.filter((p) => p !== id) : [...c.patches, id],
-    }));
+  const nextCount = count + 1;
+  const comboPrice = total - (nextCount >= COMBO_MINIMUM ? COMBO_DISCOUNT : 0);
+  const moveImage = (direction: number) => setMainImage((current) => (current + direction + images.length) % images.length);
 
   const handleAdd = () => {
     add(product, effective);
@@ -117,7 +109,8 @@ function ProductDetail({ product }: { product: Product }) {
     customizationSummary(effective).forEach((part) => {
       msg += `${part}\n`;
     });
-    msg += `\nTotal: ${formatPrice(total)}`;
+    msg += `\nTotal desta camisa: ${formatPrice(total)}`;
+    msg += `\nCombo 4+: ${formatPrice(COMBO_DISCOUNT)} de desconto por camisa a partir de ${COMBO_MINIMUM} peças no mesmo pedido. Para aproveitar, adicione as camisas ao carrinho.`;
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank");
   };
 
@@ -134,25 +127,32 @@ function ProductDetail({ product }: { product: Product }) {
       <div className="grid gap-10 md:grid-cols-[3fr_2fr]">
         {/* Galeria */}
         <div className="min-w-0">
-          <button
-            type="button"
-            onClick={() => images.length && setZoom(true)}
-            className="product-media flex aspect-[3/4] w-full items-center justify-center overflow-hidden border-0 p-0"
-            aria-label="Ampliar foto"
+          <div
+            className="product-media relative flex aspect-square w-full touch-pan-y items-center justify-center overflow-hidden"
+            onTouchStart={(event) => { touchStartX.current = event.touches[0]?.clientX ?? null; }}
+            onTouchEnd={(event) => {
+              const endX = event.changedTouches[0]?.clientX;
+              if (touchStartX.current !== null && endX !== undefined && images.length > 1 && Math.abs(endX - touchStartX.current) > 40) {
+                moveImage(endX < touchStartX.current ? 1 : -1);
+              }
+              touchStartX.current = null;
+            }}
           >
             {images.length ? (
-              <img
-                src={images[mainImage]}
-                alt={`${product.name} — ${product.team}`}
-                 className="h-full w-full object-contain"
-              />
+              <button type="button" onClick={() => setZoom(true)} className="h-full w-full" aria-label="Ampliar foto">
+                <img src={images[mainImage]} alt={`${product.name} — ${product.team}, foto ${mainImage + 1}`} className="h-full w-full object-contain" />
+              </button>
             ) : (
               <span className="product-placeholder flex flex-col items-center gap-2">
                 <Shirt className="h-12 w-12" strokeWidth={1} />
                 <span className="text-sm">Foto do produto</span>
               </span>
             )}
-          </button>
+            {images.length > 1 && <>
+              <button type="button" onClick={() => moveImage(-1)} className="detail-arrow left-3" aria-label="Foto anterior"><ChevronLeft className="h-5 w-5" /></button>
+              <button type="button" onClick={() => moveImage(1)} className="detail-arrow right-3" aria-label="Próxima foto"><ChevronRight className="h-5 w-5" /></button>
+            </>}
+          </div>
 
           {images.length > 1 && (
             <div className="mt-3 flex gap-2 overflow-x-auto">
@@ -182,16 +182,12 @@ function ProductDetail({ product }: { product: Product }) {
             {product.season ? ` · ${product.season}` : ""}
           </div>
 
-          <div className="mb-6 flex items-baseline gap-3">
-            {hasExtras && (
-              <span className="text-base text-muted-foreground line-through">
-                {formatPrice(product.price)}
-              </span>
-            )}
+          <div className="mb-2 flex items-baseline gap-3">
             <span className="font-display text-3xl font-bold text-foreground">
               {formatPrice(total)}
             </span>
           </div>
+          <p className="mb-6 text-sm text-muted-foreground">Combo 4+: {formatPrice(product.price - COMBO_DISCOUNT)} por camisa a partir de 4 peças. Adicionais à parte.</p>
 
           {/* Tamanho */}
           <div className="mb-6">
@@ -269,30 +265,6 @@ function ProductDetail({ product }: { product: Product }) {
             )}
           </div>
 
-          {/* Patches */}
-          {allowedPatches.length > 0 && (
-            <div className="mb-6">
-              <div className="mb-2 text-sm font-semibold text-foreground">Patches e escudos</div>
-              <div className="space-y-2">
-                {allowedPatches.map((p) => (
-                  <label
-                    key={p.id}
-                    className="flex cursor-pointer items-center gap-2.5 text-[13px] text-foreground"
-                  >
-                    <input
-                      type="checkbox"
-                      checked={custom.patches.includes(p.id)}
-                      onChange={() => togglePatch(p.id)}
-                      className="h-4 w-4 accent-[var(--gold)]"
-                    />
-                    {p.label}
-                    <span className="text-muted-foreground">+{formatPrice(p.price)}</span>
-                  </label>
-                ))}
-              </div>
-            </div>
-          )}
-
           {/* Resumo */}
           <div className="mb-6 bg-secondary px-4 py-4 text-[13px]">
             {lines.map((l, i) => (
@@ -321,8 +293,20 @@ function ProductDetail({ product }: { product: Product }) {
             <MessageCircle className="h-4 w-4" />
             Comprar pelo WhatsApp
           </button>
+          {nextCount >= COMBO_MINIMUM && <p className="mt-2 text-xs text-muted-foreground">No carrinho, esta camisa entra por {formatPrice(comboPrice)} com o Combo 4+.</p>}
         </div>
       </div>
+
+      <section className="mt-12 grid gap-8 border-t border-border pt-8 md:grid-cols-2">
+        <div>
+          <h2 className="font-display mb-3 text-xl font-semibold">Tamanhos</h2>
+          <p className="text-sm leading-relaxed text-muted-foreground">Disponível para consulta em P, M, G, GG, 2XL, 3XL e 4XL. Tamanhos 2XL a 4XL têm adicional de {formatPrice(SPECIAL_SIZE_PRICE)}. Confirme a disponibilidade do tamanho escolhido no pedido.</p>
+        </div>
+        <div>
+          <h2 className="font-display mb-3 text-xl font-semibold">Sobre a camisa</h2>
+          <p className="text-sm leading-relaxed text-muted-foreground">Uma camisa para vestir as cores do seu time com atenção ao visual e aos detalhes. Consulte as fotos de cada peça e escolha a versão, o tamanho e a personalização que combinam com você.</p>
+        </div>
+      </section>
 
       {zoom && images.length > 0 && (
         <div

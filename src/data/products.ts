@@ -10,12 +10,10 @@
 //   type:     "Retrô" ou "Atual"
 //   camp:     campeonato: "Brasileirão", "Libertadores", etc.
 //   season:   temporada, ex: "2024/25" (opcional)
-//   category: "Torcedor" (R$ 110), "Jogador" (R$ 130) ou "Retrô" (R$ 125)
+//   category: "Torcedor" (R$ 139,90), "Jogador" (R$ 189,90) ou "Retrô" (R$ 169,90)
 //   price:    preço base em reais — normalmente o da categoria
 //   image:    URL da foto de capa (deixe "" para usar o placeholder)
 //   images:   outras fotos da mesma camisa (opcional)
-//   patches:  ids dos patches que essa camisa aceita (opcional;
-//             se não informar, aceita todos)
 //
 // Os filtros de Time e Campeonato são gerados automaticamente
 // a partir desta lista — não precisa mexer em mais nada.
@@ -50,7 +48,6 @@ export interface Product {
   price: number;
   image: string;
   images?: string[];
-  patches?: string[];
   /** true = aparece na seção "Mais pedidos" */
   featured?: boolean;
 }

@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
 import type { Product } from "@/data/products";
-import { emptyCustomization, unitPrice, type Customization } from "@/lib/pricing";
+import { comboDiscount, emptyCustomization, unitPrice, type Customization } from "@/lib/pricing";
 
 export interface CartItem {
   key: string;
@@ -18,13 +18,14 @@ const keyOf = (product: Product, c: Customization) =>
     c.size,
     c.playerName.trim().toUpperCase(),
     c.playerNumber.trim(),
-    [...c.patches].sort().join("+"),
   ].join("__");
 
 interface CartContextValue {
   items: CartItem[];
   count: number;
   total: number;
+  savings: number;
+  discountPerItem: number;
   isOpen: boolean;
   add: (product: Product, custom?: Customization) => void;
   changeQty: (key: string, delta: number) => void;
@@ -63,11 +64,15 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const value = useMemo<CartContextValue>(() => {
     const count = items.reduce((s, i) => s + i.qty, 0);
-    const total = items.reduce((s, i) => s + i.unit * i.qty, 0);
+    const discountPerItem = comboDiscount(count);
+    const savings = count * discountPerItem;
+    const total = items.reduce((s, i) => s + i.unit * i.qty, 0) - savings;
     return {
       items,
       count,
       total,
+      savings,
+      discountPerItem,
       isOpen,
       add,
       changeQty,
@@ -87,5 +92,5 @@ export function useCart() {
 }
 
 export function formatPrice(value: number) {
-  return `R$ ${value.toLocaleString("pt-BR")}`;
+  return `R$ ${value.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 }

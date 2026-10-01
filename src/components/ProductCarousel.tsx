@@ -9,7 +9,7 @@ interface Props {
 }
 
 /** Carrossel de fotos: setas no desktop, swipe no mobile, dots sempre. */
-export function ProductCarousel({ images, alt, className = "aspect-[3/4]" }: Props) {
+export function ProductCarousel({ images, alt, className = "aspect-square" }: Props) {
   const [index, setIndex] = useState(0);
   const startX = useRef<number | null>(null);
   const total = images.length;
@@ -32,7 +32,7 @@ export function ProductCarousel({ images, alt, className = "aspect-[3/4]" }: Pro
   return (
     <div className="carousel-root">
       <div
-        className={`product-media relative flex ${className} items-center justify-center overflow-hidden`}
+          className={`product-media relative flex ${className} touch-pan-y items-center justify-center overflow-hidden`}
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
       >

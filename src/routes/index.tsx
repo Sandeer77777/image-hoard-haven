@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { CartProvider } from "@/lib/cart";
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
 import { Catalog } from "@/components/Catalog";
@@ -33,7 +32,6 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <CartProvider>
       <div className="min-h-screen bg-background">
         <PromoBanner />
         <Header />
@@ -44,6 +42,5 @@ function Index() {
         <CartDrawer />
         <FloatingWhatsApp />
       </div>
-    </CartProvider>
   );
 }
