@@ -5,3 +5,7 @@
 - [x] Preços avulsos, Combo 4+ e adicionais no carrinho/WhatsApp.
 - [x] Retirar patches e apresentar tamanhos e descrição cuidadosa.
 - [x] Verificar experiências no celular e computador.
+# Importação e filtros do catálogo
+- [x] Busca e filtros por time, tipo, campeonato e categoria; painel lateral no computador e janela no celular.
+- [ ] Importar os 1.849 produtos reais — aguardando CSV completo ou URL; a mensagem contém somente exemplos e resumo.
+- [ ] Verificar os filtros e a navegação sem alterar os produtos atuais.
