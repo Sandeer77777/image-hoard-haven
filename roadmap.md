@@ -8,4 +8,4 @@
 # Importação e filtros do catálogo
 - [x] Busca e filtros por time, tipo, campeonato e categoria; painel lateral no computador e janela no celular.
 - [ ] Importar os 1.849 produtos reais — aguardando CSV completo ou URL; a mensagem contém somente exemplos e resumo.
-- [ ] Verificar os filtros e a navegação sem alterar os produtos atuais.
+- [x] Verificar os filtros e a navegação sem alterar os produtos atuais.
